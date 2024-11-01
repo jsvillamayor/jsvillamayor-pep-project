@@ -88,7 +88,7 @@ public class SocialMediaController {
         context.json(messages);
     }
 
-    private void getMessageById(Para){
+    private void getMessageById(){
         
     }
 
