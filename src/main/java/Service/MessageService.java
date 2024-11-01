@@ -38,7 +38,8 @@ public class MessageService {
     }
 
     public Message updateMessage(Message message){
-        return messageDAO.updateMessage(message);
+        messageDAO.updateMessage(message);
+        return messageDAO.getMessageById(message.getMessage_id());
     }
     
 }
