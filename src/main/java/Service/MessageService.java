@@ -33,13 +33,18 @@ public class MessageService {
         return messageDAO.getMessageById(id);
     }
 
-    public Message deletMessage(int id){
-        return messageDAO.deleteMessage(id);
+    public Message deletMessage(int message_id){
+        Message deletedMessage = messageDAO.getMessageById(message_id);
+        messageDAO.deleteMessage(message_id);
+        return deletedMessage;
     }
 
-    public Message updateMessage(Message message){
-        messageDAO.updateMessage(message);
-        return messageDAO.getMessageById(message.getMessage_id());
+    public Message updateMessage(int message_id, Message message){
+        messageDAO.updateMessage(message_id, message);
+        if(message.getMessage_text().isEmpty() || message.getMessage_text().length() > 255){
+            return null;
+        }
+        return messageDAO.getMessageById(message_id);
     }
     
 }

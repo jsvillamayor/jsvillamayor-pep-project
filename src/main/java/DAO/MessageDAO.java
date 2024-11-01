@@ -103,7 +103,7 @@ public class MessageDAO {
         return null;
     }
 
-    public Message deleteMessage(int id){
+    public void deleteMessage(int message_id){
         Connection connection = ConnectionUtil.getConnection();
         try {
 //          Write SQL logic here. You should only be inserting with the name column, so that the database may
@@ -112,35 +112,30 @@ public class MessageDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             //write preparedStatement's setString method here.
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, message_id);
             
             preparedStatement.executeUpdate();
-            ResultSet rs = preparedStatement.executeQuery();
-            if(rs.next()){
-                return new Message(rs.getInt("message_id"), 
-                            rs.getInt("posted_by"),
-                            rs.getString("message_text"),
-                            rs.getLong("time_posted_epoch"));
-            }
+            
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        return null;
     }
 
-    public void updateMessage(Message message){
+    public void updateMessage(int message_id, Message message){
         Connection connection = ConnectionUtil.getConnection();
         try {
-//          Write SQL logic here. You should only be inserting with the name column, so that the database may
-//          automatically generate a primary key.
-            String sql = "UPDATE message SET message_text = ? WHERE message_id = ?;";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            if(!message.getMessage_text().isEmpty() && message.getMessage_text().length() <= 255){
+    //          Write SQL logic here. You should only be inserting with the name column, so that the database may
+    //          automatically generate a primary key.
+                String sql = "UPDATE message SET message_text = ? WHERE message_id = ?;";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            //write preparedStatement's setString method here.
-            preparedStatement.setString(1, message.getMessage_text());
-            preparedStatement.setInt(2, message.getMessage_id());
-            
-            preparedStatement.executeUpdate();
+                //write preparedStatement's setString method here.
+                preparedStatement.setString(1, message.getMessage_text());
+                preparedStatement.setInt(2, message_id);
+                
+                preparedStatement.executeUpdate();
+            }
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
