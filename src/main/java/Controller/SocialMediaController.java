@@ -91,13 +91,17 @@ public class SocialMediaController {
     private void getMessageByIdHandler(Context context){
         int message_id = Integer.parseInt(context.pathParam("message_id"));
         Message message = messageService.getMessage(message_id);
-        context.json(message);
+        if(message!=null){
+            context.json(message);
+        }
     }
 
     private void deleteMessageHandler(Context context){
         int message_id = Integer.parseInt(context.pathParam("message_id"));
         Message message = messageService.deletMessage(message_id);
-        context.json(message);
+        if(message!=null){
+            context.json(message);
+        }
     }
 
     private void updateMessageHandler(Context context) throws JsonProcessingException, JsonMappingException{
